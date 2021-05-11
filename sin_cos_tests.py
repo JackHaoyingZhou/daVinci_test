@@ -27,7 +27,8 @@ count = 200
 # x = coef(b, 10)
 # fit = poly.Polynomial(x.flatten())
 t = np.linspace(0,10,count)
-x_prime = np.cos(t)
+#x_prime = np.cos(t)
+x_prime = np.cos(t) + np.exp(0.1*t)
 
 x_data = []
 for i in range(5):
@@ -38,7 +39,8 @@ for i in range(5):
 # x = coef(b, 10)
 # fit = poly.Polynomial(x.flatten())
 t = np.linspace(0, 10, count)
-y_prime = np.sin(t)
+# y_prime = np.sin(t)
+y_prime = np.sin(t) - np.exp(0.1*t)
 #Y Coordinate
 y_data = []
 for i in range(5):
@@ -50,22 +52,23 @@ for i in range(5):
 # x = coef(b, 10)
 # fit = poly.Polynomial(x.flatten())
 t = np.linspace(0,10,count)
-z_prime = t
+# z_prime = t
+z_prime = t + t**1.2 + np.exp(-t)
 #Z Coordinate
 z_data = []
 for i in range(5):
-    z = 3*(z_prime + gauss(-.1, .1))
+    z = z_prime + gauss(-.1, .1)
     z_data.append(z)
 
 
 trainer = TPGMMTrainer.TPGMMTrainer(demo=[x_data, y_data, z_data],
-                                    file_name="simpletest",
+                                    file_name="spiraltest",
                                     n_rf=3,
-                                    dt=0.01,
+                                    dt=0.05,
                                     reg=[1e-3],
                                     poly_degree=[3,3,3])
 trainer.train()
-runner = TPGMMRunner.TPGMMRunner("simpletest")
+runner = TPGMMRunner.TPGMMRunner("spiraltest")
 
 
 path = runner.run()
@@ -76,17 +79,18 @@ z_coordinates = path[:,2]
 x_data_arr = np.array(x_data)
 y_data_arr = np.array(y_data)
 z_data_arr = np.array(z_data)
-print(x_data_arr[0, :])
+# print(x_data_arr[0, :])
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter3D(x_data_arr[0, :], y_data_arr[0, :], z_data_arr[0, :], c='yellow')
-ax.scatter3D(x_data_arr[1, :], y_data_arr[1, :], z_data_arr[1, :], c='blue')
-ax.scatter3D(x_data_arr[2, :], y_data_arr[2, :], z_data_arr[2, :], c='green')
-ax.scatter3D(x_data_arr[3, :], y_data_arr[3, :], z_data_arr[3, :], c='purple')
-ax.scatter3D(x_data_arr[4, :], y_data_arr[4, :], z_data_arr[4, :], c='orange')
-ax.scatter3D(x_coordinates, y_coordinates, z_coordinates, c='red')
-ax.legend(['Given Trajectory #1', 'Given Trajectory #2', 'Given Trajectory #3', 'Given Trajectory #4', 'Given Trajectory #5',  'TPGMM Genereated Trajectory'], loc="left", ncol=1)
+ax.scatter3D(x_data_arr[0, :], y_data_arr[0, :], z_data_arr[0, :], c='yellow',label='given trajectory 1')
+ax.scatter3D(x_data_arr[1, :], y_data_arr[1, :], z_data_arr[1, :], c='blue',label='given trajectory 2')
+ax.scatter3D(x_data_arr[2, :], y_data_arr[2, :], z_data_arr[2, :], c='green',label='given trajectory 3')
+ax.scatter3D(x_data_arr[3, :], y_data_arr[3, :], z_data_arr[3, :], c='purple',label='given trajectory 4')
+ax.scatter3D(x_data_arr[4, :], y_data_arr[4, :], z_data_arr[4, :], c='orange',label='given trajectory 5')
+ax.scatter3D(x_coordinates, y_coordinates, z_coordinates, c='red',label='TPGMM generated trajectory')
+# ax.legend(['Given Trajectory #1', 'Given Trajectory #2', 'Given Trajectory #3', 'Given Trajectory #4', 'Given Trajectory #5',  'TPGMM Genereated Trajectory'], loc="left", ncol=1)
+ax.legend()
 ax.set_title("Given Trajectories vs. TPGMM Generated Trajectory")
 ax.set_xlabel('X axis')
 ax.set_ylabel('Y axis')
