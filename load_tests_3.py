@@ -11,17 +11,6 @@ import numpy.polynomial.polynomial as poly
 import pickle
 import json
 
-with open('test4','rb') as fp:
-    itemlist = pickle.load(fp)
-
-itemlist = np.array(itemlist)
-jp_0 = itemlist[:,0]
-jp_1 = itemlist[:,1]
-jp_2 = itemlist[:,2]
-jp_3 = itemlist[:,3]
-jp_4 = itemlist[:,4]
-jp_5 = itemlist[:,5]
-
 jp0 = []
 jp1 = []
 jp2 = []
@@ -29,13 +18,22 @@ jp3 = []
 jp4 = []
 jp5 = []
 
-for i in range(3):
-    jp0_list = jp_0 + gauss(0, .01)
-    jp1_list = jp_1 + gauss(0, .01)
-    jp2_list = jp_2 + gauss(0, .01)
-    jp3_list = jp_3 + gauss(0, .01)
-    jp4_list = jp_4 + gauss(0, .01)
-    jp5_list = jp_5 + gauss(0, .01)
+for i in range(1):
+    with open('multi_test_{}'.format(i+1),'rb') as fp:
+        itemlist = pickle.load(fp)
+    itemlist = np.array(itemlist)
+    jp_0 = itemlist[:,0]
+    jp_1 = itemlist[:,1]
+    jp_2 = itemlist[:,2]
+    jp_3 = itemlist[:,3]
+    jp_4 = itemlist[:,4]
+    jp_5 = itemlist[:,5]
+    jp0_list = 10*jp_0 #+ gauss(0, .01)
+    jp1_list = 10*jp_1 #+ gauss(0, .01)
+    jp2_list = 10*jp_2 #+ gauss(0, .01)
+    jp3_list = 10*jp_3 #+ gauss(0, .01)
+    jp4_list = 10*jp_4 #+ gauss(0, .01)
+    jp5_list = 10*jp_5 #+ gauss(0, .01)
     jp0.append(jp0_list)
     jp1.append(jp1_list)
     jp2.append(jp2_list)
@@ -103,24 +101,24 @@ for i in range(3):
 #     z_data.append(z)
 
 
-trainer = TPGMMTrainer.TPGMMTrainer(demo=[jp0,jp1,jp2,jp3,jp4,jp5],
-                                    file_name="real_test_3",
-                                    n_rf=3,
-                                    dt=0.05,
-                                    reg=[1e-5],
-                                    poly_degree=[3,3,3,3,3,3])
-trainer.train()
-runner = TPGMMRunner.TPGMMRunner("real_test_3")
-
-
-path = runner.run()
 #
-with open('test4_result','w') as f:
-    json.dump(path.tolist(),f)
 # x_coordinates = path[:,0]
 # y_coordinates = path[:,1]
 # z_coordinates = path[:,2]
-#
+trainer = TPGMMTrainer.TPGMMTrainer(demo=[jp0,jp1,jp2,jp3,jp4,jp5],
+                                    file_name="test_2",
+                                    n_rf=3,
+                                    dt=0.05,
+                                    reg=[2e-3],
+                                    poly_degree=[15,15,15,15,15,15])
+trainer.train()
+runner = TPGMMRunner.TPGMMRunner("test_2")
+
+
+path = runner.run()
+
+with open('result_test_2','w') as f:
+    json.dump(path.tolist(),f)
 # x_data_arr = np.array(x_data)
 # y_data_arr = np.array(y_data)
 # z_data_arr = np.array(z_data)
