@@ -46,13 +46,13 @@ for i in range(5):
 
 
 # # #
-trainer = TPGMMTrainer.TPGMMTrainer(demo=[jp0,jp1, jp2,jp3,jp4, jp5],
-                                    file_name="real_test_2",
-                                    n_rf=15,
-                                    dt=0.01,
-                                    reg=[1e-2, 1e-2, 1e-2, 1e-2, 1e-2, 1e-2],
-                                    poly_degree=[15, 15, 15, 15, 15, 15])
-trainer.train()
+# trainer = TPGMMTrainer.TPGMMTrainer(demo=[jp0,jp1, jp2,jp3,jp4, jp5],
+#                                     file_name="real_test_2",
+#                                     n_rf=15,
+#                                     dt=0.01,
+#                                     reg=[1e-2, 1e-2, 1e-2, 1e-2, 1e-2, 1e-2],
+#                                     poly_degree=[15, 15, 15, 15, 15, 15])
+# trainer.train()
 runner = TPGMMRunner.TPGMMRunner("real_test_2")
 #
 #
@@ -62,29 +62,57 @@ path = runner.run()
 
 fig, axs = plt.subplots(3,2)
 
+fig.suptitle('Test set 1',fontsize=20)
+
 for p in jp0:
     axs[0,0].plot(p)
-    axs[0,0].plot(path[:, 0], linewidth=4, color='black')
+axs[0,0].plot(path[:, 0], linewidth=4, color='black',label='generated')
+axs[0,0].set_ylabel('Joint 1',fontsize=17)
+axs[0,0].tick_params(axis="x",labelsize=15)
+axs[0,0].tick_params(axis="y",labelsize=15)
+axs[0,0].legend(prop={'size':15})
 
 for p in jp1:
     axs[1,0].plot(p)
-    axs[1,0].plot(path[:, 1], linewidth=4, color='black')
+axs[1,0].plot(path[:, 1], linewidth=4, color='black',label='generated')
+axs[1,0].set_ylabel('Joint 2',fontsize=17)
+axs[1,0].tick_params(axis="x",labelsize=15)
+axs[1,0].tick_params(axis="y",labelsize=15)
+axs[1,0].legend(prop={'size':15})
 #
 for p in jp2:
     axs[2,0].plot(p)
-    axs[2,0].plot(path[:, 2], linewidth=4, color='black')
+axs[2,0].plot(path[:, 2], linewidth=4, color='black',label='generated')
+axs[2,0].set_ylabel('Joint 3',fontsize=17)
+axs[2,0].set_xlabel('Iteration',fontsize=17)
+axs[2,0].tick_params(axis="x",labelsize=15)
+axs[2,0].tick_params(axis="y",labelsize=15)
+axs[2,0].legend(prop={'size':15})
 #
 for p in jp3:
     axs[0,1].plot(p)
-    axs[0,1].plot(path[:, 3], linewidth=4, color='black')
+axs[0,1].plot(path[:, 3], linewidth=4, color='black',label='generated')
+axs[0,1].set_ylabel('Joint 4',fontsize=17)
+axs[0,1].tick_params(axis="x",labelsize=15)
+axs[0,1].tick_params(axis="y",labelsize=15)
+axs[0,1].legend(prop={'size':15})
 
 for p in jp4:
     axs[1,1].plot(p)
-    axs[1,1].plot(path[:, 4], linewidth=4, color='black')
+axs[1,1].plot(path[:, 4], linewidth=4, color='black',label='generated')
+axs[1,1].set_ylabel('Joint 5',fontsize=17)
+axs[1,1].tick_params(axis="x",labelsize=15)
+axs[1,1].tick_params(axis="y",labelsize=15)
+axs[1,1].legend(prop={'size':15})
 
 for p in jp5:
     axs[2,1].plot(p)
-    axs[2,1].plot(path[:, 5], linewidth=4, color='black')
+axs[2,1].plot(path[:, 5], linewidth=4, color='black',label='generated')
+axs[2,1].set_ylabel('Joint 6',fontsize=17)
+axs[2,1].set_xlabel('Iteration',fontsize=17)
+axs[2,1].tick_params(axis="x",labelsize=15)
+axs[2,1].tick_params(axis="y",labelsize=15)
+axs[2,1].legend(prop={'size':15})
 
 
 plt.show()
